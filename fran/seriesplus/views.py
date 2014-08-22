@@ -7,8 +7,8 @@ from django.core.files import File
 # Create your views here.
 
 def auth_token(request):
-        f_auth = open('/home/fran/fran/seriesplus/auth.txt','w')
-        f_secret = open('/home/fran/fran/seriesplus/secret.txt','r')
+        f_auth = open('/home/fran/GitHub/seriesplus-django/fran/seriesplus/auth.txt','w')
+        f_secret = open('/home/fran/GitHub/seriesplus-django/fran/seriesplus/secret.txt','r')
         myfile_auth = File(f_auth)
         myfile_secret = File(f_secret)
         secret = myfile_secret.readline()
