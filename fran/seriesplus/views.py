@@ -1,8 +1,9 @@
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import json
 import urllib2
 from django.core.files import File
+from django.core.context_processors import csrf
 
 # Create your views here.
 
@@ -23,12 +24,12 @@ def auth_token(request):
 
 
 def login(request):
-        return render_to_response('login.html')
+        c = {}
+        c.update(csrf(request))
+        return render_to_response('login.html', c)
 
 def get_user(request):
-        if request.method == 'POST':
-                user = request.POST['username']
-        elif request.method == 'GET':
-                user = request.GET['username']
-        print user
-        return HttpResponse('get_user done')
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        print username
+        print password

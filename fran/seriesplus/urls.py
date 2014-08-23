@@ -7,7 +7,7 @@ urlpatterns = patterns('',
 
     url(r'^auth$', auth_token),
     url(r'^login$', login),
-    url(r'^login$', get_user),
+    url(r'^get_user$', get_user),
 )
 
 
