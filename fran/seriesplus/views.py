@@ -18,11 +18,15 @@ def auth_token(request):
         jresp = json.loads(read)
         auth = jresp["auth_token"]
         myfile_auth.write(str(auth))
+        print auth
 	return HttpResponse('Done')
+
 
 def login(request):
         return render_to_response('login.html')
 
 def get_user(request):
-        username = request.GET('username')
-        print username
+        if request.method == 'GET':
+                user1 = request.GET['username']
+        print user1
+        return HttpResponse('get_user done')
