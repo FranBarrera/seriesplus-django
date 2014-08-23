@@ -26,7 +26,9 @@ def login(request):
         return render_to_response('login.html')
 
 def get_user(request):
-        if request.method == 'GET':
-                user1 = request.GET['username']
-        print user1
+        if request.method == 'POST':
+                user = request.POST['username']
+        elif request.method == 'GET':
+                user = request.GET['username']
+        print user
         return HttpResponse('get_user done')
