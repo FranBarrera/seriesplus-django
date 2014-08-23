@@ -29,7 +29,7 @@ def login(request):
         return render_to_response('login.html', c)
 
 def get_user(request):
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
+        username = request.POST['username']
+        password = request.POST['password']
         print username
         print password
