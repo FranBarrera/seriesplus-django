@@ -72,4 +72,3 @@ def fseriesfollowing(user_token):
         read = response.read()
         jresp = json.loads(read)
         return jresp
-
