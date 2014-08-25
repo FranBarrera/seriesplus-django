@@ -3,10 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 import json
 import urllib2
 import urllib
+import Cookie
+import requests
 from django.core.files import File
 from django.core.context_processors import csrf
-
-# Create your views here.
 
 f_auth = open('/home/fran/GitHub/seriesplus-django/fran/seriesplus/auth.txt','r')
 myfile_auth = File(f_auth)
@@ -25,42 +25,45 @@ def auth_token(request):
         auth = jresp["auth_token"]
         myfile_auth.write(str(auth))
         print auth
-	return HttpResponse('Done')
+        return HttpResponse('Done')
 
 def login(request):
         c = {}
         c.update(csrf(request))
         return render_to_response('login.html', c)
 
-def get_user(request):
+def obtener_user(request):
         username = request.POST['username']
         password = request.POST['password']
         url = "http://api.series.ly/v2/user/user_token"
         values = {'auth_token':auth, 'username':username, 'password':password, 'remember':'1'}
         data = urllib.urlencode(values)
         req = urllib2.Request(url, data)
-        response = urllib2.urlopen(req)
-        read = response.read()
+        respuesta = urllib2.urlopen(req)
+        read = respuesta.read()
         jresp = json.loads(read)
-        print auth_token
-        print jresp
         if 'user_token' in jresp:
-                if len(jresp['user_token']) > 0:
-                        user_token = jresp['user_token']
-                        response = HttpResponse("user_token %s" % user_token)
-                        response.set_cookie('user_token', user_token)
+                user_token = jresp['user_token']
+                #print user_token
+                request.session["user_token"] = user_token
+                print request.session["user_token"]
 
-                        # data = fseriesfollowing(user_token)
-                        # print data
-                        return HttpResponseRedirect('/seriesplus')            
+                #response = HttpResponse('user_token %s' % user_token)
+                #response.set_cookie('Set-Cookie', 'user_token='+user_token)
+                
+                #response.set_cookie('user_token', user_token)
+                return HttpResponseRedirect('/seriesplus')
         else:
-                return HttpResponse('MAL')
+                return HttpResponse('Login Incorrecto')
 
 def principal(request):
-        if request.COOKIES.get("user_token"):
-                data_raw = fseriesfollowing(request.COOKIES.get("user_token"))
+        #if request.COOKIES.get("user_token"):
+        if request.session.get("user_token"):
+                data_raw = fseriesfollowing(request.session["user_token"])
                 print data_raw
                 return render_to_response('inicio.html',{'data_raw':data_raw})
+        else:
+                return HttpResponse('No hay cookies')
 
  
 def fseriesfollowing(user_token):

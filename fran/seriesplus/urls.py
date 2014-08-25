@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from seriesplus.views import auth_token, login, get_user, principal
+from seriesplus.views import auth_token, login, principal, obtener_user
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'fran.views.home', name='home'),
@@ -7,7 +7,7 @@ urlpatterns = patterns('',
 
     url(r'^auth$', auth_token),
     url(r'^login$', login),
-    url(r'^get_user$', get_user),
+    url(r'^obtener$', obtener_user),
     url(r'^$', principal),
 )
 

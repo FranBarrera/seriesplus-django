@@ -22,7 +22,7 @@
         <div class="col-md-12 header">SeriesPlus</div>
         <div class="row">
           <div class="col-md-4 col-md-offset-4">
-                <form action="/seriesplus/get_user" method="post">{% csrf_token %}
+                <form action="/seriesplus/obtener" method="post">{% csrf_token %}
                     <div><span>Usuario:</span><input name="username" placeholder="Usuario" type="text" id="username" /></div>
                     <div><span>Contraseña:</span><input name="password" placeholder="Contraseña" type="password" id="password" /></div>
                     <input value="Iniciar sesión" class="btn btn-success" type="submit" />
